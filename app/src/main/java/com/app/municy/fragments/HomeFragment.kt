@@ -129,6 +129,8 @@ class HomeFragment : Fragment(), ItemClickListener {
     override fun onClick(data: Any) {
         val notification: Notification = data as Notification;
         val body = notification.description
+
+                //test
         /* startActivity(
              Intent(requireContext(), NotificationActivity::class.java)
              .putExtra("id", id)
