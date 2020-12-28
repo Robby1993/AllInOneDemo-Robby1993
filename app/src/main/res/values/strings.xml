@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">Municy</string>
+    <string name="text_no_account">Don\'t have an account?</string>
+    <string name="text_no_account2">Get started</string>
+    <string name="sign_in">Sign In</string>
+    <string name="password">Password</string>
+    <string name="email_username">Email/Username</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email">Email</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="support">Support</string>
+    <string name="settings">Settings</string>
+    <string name="exit">Exit</string>
+    <string name="resources">Resources</string>
+    <string name="home">Home</string>
+    <string name="notification">Notification</string>
+    <string name="menu">Menu</string>
+    <string name="deer_park_fire_department">Deer Park Fire Department</string>
+    <string name="phone_numbers">Phone Numbers</string>
+    <string name="links">Links</string>
+    <string name="forms">Forms</string>
+    <string name="files">Files</string>
+    <string name="locations">Locations</string>
+    <string name="codes">Codes</string>
+    <string name="training_videos">Training Videos</string>
+    <string name="no_data_found">No data Found</string>
+    <string name="admin">Admin</string>
+    <string name="follower">Follower</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="view_all">View All</string>
+    <string name="event_reminders"><![CDATA[Event & Reminders]]></string>
+    <string name="point_tracker">Point Tracker</string>
+    <string name="time_punches">Time Punches</string>
+    <string name="call_in_system">Call in System</string>
+    <string name="calendars">Calendars</string>
+
+</resources>
