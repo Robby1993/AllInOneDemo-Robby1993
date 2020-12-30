@@ -24,8 +24,6 @@ object Constants {
     const val BASE_URL = "http://uploader.vijayadigipress.com/api/"
     private const val MySharedPref = "MysharedPref"
 
-
-
     private fun isAppOnForeground(context: Context): Boolean {
         val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         val appProcesses = activityManager.runningAppProcesses ?: return false
