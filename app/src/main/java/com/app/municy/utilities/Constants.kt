@@ -12,6 +12,10 @@ import java.util.*
 
 object Constants {
 
+  /*  You’re accessing GitHub through SSH. First generate an SSH key pair; then add the public key to GitHub.
+    Generate key pair:
+    ssh-keygen -t rsa -b 4096 -C “youremail@example.com”*/
+
     //https://proandroiddev.com/viewbinding-with-kotlin-property-delegate-c907682e24c9#:~:text=Introduction%20to%20ViewBinding%20ViewBinding%20is%20a%20new%20feature,depend%20on%20Annotation%20Processing%20%28KAPT%29%20as%20Butterknife%20does.
     @kotlin.jvm.JvmStatic
     lateinit var preferences: SharedPreferences
