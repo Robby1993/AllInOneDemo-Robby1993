@@ -244,9 +244,9 @@ class HomeActivity : AppCompatActivity(), updateCount {
             tvNotificationCount.text = "" + countIncrement
         } else {
             tvNotificationCount.visibility = View.GONE
-
         }
         /*if (textCartItemCount != null) {
+
             val res: Cursor = databaseHelper.getAllData()
             if (res.getCount() === 0) {
                 if (textCartItemCount.getVisibility() === View.VISIBLE) {
