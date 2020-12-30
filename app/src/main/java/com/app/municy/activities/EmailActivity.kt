@@ -5,9 +5,14 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.Navigation
+import com.app.municy.R
 import com.app.municy.databinding.ActivityEmailBinding
 
 class EmailActivity : AppCompatActivity() {
@@ -66,6 +71,32 @@ class EmailActivity : AppCompatActivity() {
                 "There is no email client installed.",
                 Toast.LENGTH_SHORT
             ).show()
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+   /* override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_notification ->
+                  Toast.makeText(applicationContext, "action_notification", Toast.LENGTH_LONG).show()
+
+                // startActivity(new Intent(HomeActivity2.this, NotificationActivity.class));
+               // true
+            else -> super.onOptionsItemSelected(item)
+        }
+    }*/
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_notification -> {
+                 Toast.makeText(applicationContext, "Coming soon", Toast.LENGTH_LONG).show()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 

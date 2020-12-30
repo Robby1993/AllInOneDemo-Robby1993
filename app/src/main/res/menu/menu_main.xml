@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
+   <!-- <item
         android:id="@+id/notification"
         android:title="@string/notification"
         android:icon="@drawable/ic_noti"
-        app:showAsAction="always"/>
+        app:showAsAction="always"/>-->
+
+    <item
+        android:id="@+id/action_notification"
+        android:icon="@drawable/ic_noti"
+        android:title="Cart"
+        app:actionLayout="@layout/notification_layout"
+        app:showAsAction="always" />
+
+ <!--   <item
+        android:id="@+id/action_cart"
+        android:icon="@drawable/ic_noti"
+        android:title="Cart"
+        app:actionLayout="@layout/notification_layout"
+        app:showAsAction="always" />-->
 </menu>

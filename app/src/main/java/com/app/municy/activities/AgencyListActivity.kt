@@ -24,7 +24,7 @@ class AgencyListActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.notification -> {
+            R.id.action_notification -> {
 
                 /*  val navController =
                       Navigation.findNavController(this@MainActivity, R.id.nav_host_fragment);

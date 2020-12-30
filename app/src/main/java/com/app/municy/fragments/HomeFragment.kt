@@ -1,7 +1,7 @@
 package com.app.municy.fragments
 
 import ApiClient
-import android.content.Intent
+import RetrofitHelper
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -9,18 +9,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.app.filesender.interfaces.ApiInterface
 import com.app.filesender.interfaces.ItemClickListener
-import com.app.filesender.network.RetrofitHelper
+import com.app.municy.HomeActivity
+import com.app.municy.HomeActivity.Companion.countIncrement
 import com.app.municy.R
-import com.app.municy.activities.LoginActivity
 import com.app.municy.adapter.NotificationListAdapter
 import com.app.municy.databinding.FragmentHomeBinding
+import com.app.municy.interfaces.updateCount
 import com.app.municy.model.Notification
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import org.json.JSONException
 import org.json.JSONObject
@@ -36,8 +34,8 @@ class HomeFragment : Fragment(), ItemClickListener {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         //  return inflater.inflate(R.layout.fragment_home, container, false)
@@ -101,36 +99,38 @@ class HomeFragment : Fragment(), ItemClickListener {
         //    Log.d(TAG, "uploadShopData  mObject : $id")
 
         RetrofitHelper.requestRetrofit(
-            requireContext(),
-            call,
-            object : RetrofitHelper.CallBackListener {
-                override fun onFailed(message: String) {
-                    // binding.progressbar.visibility == View.GONE
-                    Log.d(TAG, "uploadShopData  message : $message")
-                }
-
-                override fun onSuccess(json: JSONObject) {
-                    //  binding.progressbar.visibility == View.GONE
-                    Log.d(TAG, "uploadShopData  mObject : $json")
-                    try {
-                        val status = json.getString("status")
-                        if (status == "success") {
-                            val img = json.getString("fileUrl")
-                            val appUrl = json.getString("appUrl")
-                        }
-                        Log.d(TAG, "ApiResponse--: " + "fileUrl " + json.getString("fileUrl"))
-                    } catch (e: JSONException) {
-                        e.printStackTrace()
+                requireContext(),
+                call,
+                object : RetrofitHelper.CallBackListener {
+                    override fun onFailed(message: String) {
+                        // binding.progressbar.visibility == View.GONE
+                        Log.d(TAG, "uploadShopData  message : $message")
                     }
-                }
-            })
+
+                    override fun onSuccess(json: JSONObject) {
+                        //  binding.progressbar.visibility == View.GONE
+                        Log.d(TAG, "uploadShopData  mObject : $json")
+                        try {
+                            val status = json.getString("status")
+                            if (status == "success") {
+                                val img = json.getString("fileUrl")
+                                val appUrl = json.getString("appUrl")
+                            }
+                            Log.d(TAG, "ApiResponse--: " + "fileUrl " + json.getString("fileUrl"))
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                        }
+                    }
+                })
     }
 
     override fun onClick(data: Any) {
-        val notification: Notification = data as Notification;
-        val body = notification.description
+       /* val notification: Notification = data as Notification;
+        val body = notification.description*/
+        countIncrement += 1
+        (context as updateCount).updateCartCount()
 
-                //test
+        //test
         /* startActivity(
              Intent(requireContext(), NotificationActivity::class.java)
              .putExtra("id", id)
@@ -138,9 +138,9 @@ class HomeFragment : Fragment(), ItemClickListener {
              .putExtra("body", body)
              .putExtra("title", title))*/
 
-      /*  val dialogView: View = layoutInflater.inflate(R.layout.bottom_sheet, null)
-        val dialog = BottomSheetDialog(requireContext())
-        dialog.setContentView(dialogView)
-        dialog.show()*/
+        /*  val dialogView: View = layoutInflater.inflate(R.layout.bottom_sheet, null)
+          val dialog = BottomSheetDialog(requireContext())
+          dialog.setContentView(dialogView)
+          dialog.show()*/
     }
 }

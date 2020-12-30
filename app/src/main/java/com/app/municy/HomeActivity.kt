@@ -1,36 +1,48 @@
 package com.app.municy
 
+import Constants
 import NavigationItemModel
-import com.app.municy.adapter.NavigationRVAdapter
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import cn.pedant.SweetAlert.SweetAlertDialog
+import com.app.municy.adapter.NavigationRVAdapter
 import com.app.municy.databinding.ActivityHomeBinding
 import com.app.municy.fragments.HomeFragment
 import com.app.municy.fragments.ResourceFragment
 import com.app.municy.fragments.SettingsFragment
 import com.app.municy.fragments.SupportFragment
+import com.app.municy.interfaces.updateCount
 import com.app.municy.utilities.ClickListener
 import com.app.municy.utilities.RecyclerTouchListener
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity(), updateCount {
+    private lateinit var tvNotificationCount: TextView
     private lateinit var mBinding: ActivityHomeBinding
     private lateinit var adapter: NavigationRVAdapter
     private var items = arrayListOf(
-        NavigationItemModel("Home"),
-        NavigationItemModel("Resources"),
-        NavigationItemModel("Support"),
-        NavigationItemModel("Settings"),
-        NavigationItemModel("Exit"),
+            NavigationItemModel("Home"),
+            NavigationItemModel("Resources"),
+            NavigationItemModel("Support"),
+            NavigationItemModel("Settings"),
+            NavigationItemModel("Exit"),
     )
+
+    companion object {
+        var countIncrement = 0
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +59,7 @@ class HomeActivity : AppCompatActivity() {
 
         // Add Item Touch Listener
         mBinding.navigationRv.addOnItemTouchListener(RecyclerTouchListener(this, object :
-            ClickListener {
+                ClickListener {
             override fun onClick(view: View, position: Int) {
                 when (position) {
                     0 -> {
@@ -58,7 +70,7 @@ class HomeActivity : AppCompatActivity() {
                         val homeFragment = HomeFragment()
                         homeFragment.arguments = bundle
                         supportFragmentManager.beginTransaction()
-                            .replace(R.id.activity_main_content_id, homeFragment).commit()
+                                .replace(R.id.activity_main_content_id, homeFragment).commit()
                     }
                     1 -> {
                         mBinding.activityMainToolbarTitle.text = "Resource"
@@ -67,7 +79,7 @@ class HomeActivity : AppCompatActivity() {
                         val musicFragment = ResourceFragment()
                         musicFragment.arguments = bundle
                         supportFragmentManager.beginTransaction()
-                            .replace(R.id.activity_main_content_id, musicFragment).commit()
+                                .replace(R.id.activity_main_content_id, musicFragment).commit()
                     }
                     2 -> {
                         mBinding.activityMainToolbarTitle.text = "Support"
@@ -76,7 +88,7 @@ class HomeActivity : AppCompatActivity() {
                         val moviesFragment = SupportFragment()
                         moviesFragment.arguments = bundle
                         supportFragmentManager.beginTransaction()
-                            .replace(R.id.activity_main_content_id, moviesFragment).commit()
+                                .replace(R.id.activity_main_content_id, moviesFragment).commit()
                     }
                     3 -> {
                         mBinding.activityMainToolbarTitle.text = "Settings"
@@ -85,7 +97,7 @@ class HomeActivity : AppCompatActivity() {
                         val booksFragment = SettingsFragment()
                         booksFragment.arguments = bundle
                         supportFragmentManager.beginTransaction()
-                            .replace(R.id.activity_main_content_id, booksFragment).commit()
+                                .replace(R.id.activity_main_content_id, booksFragment).commit()
                     }
                     4 -> {
                         exitDialog()
@@ -114,23 +126,23 @@ class HomeActivity : AppCompatActivity() {
         val homeFragment = HomeFragment()
         homeFragment.arguments = bundle
         supportFragmentManager.beginTransaction()
-            .replace(R.id.activity_main_content_id, homeFragment).commit()
+                .replace(R.id.activity_main_content_id, homeFragment).commit()
 
 
         // Close the soft keyboard when you open or close the Drawer
         val toggle: ActionBarDrawerToggle = object : ActionBarDrawerToggle(
-            this,
-            mBinding.drawerLayout,
-            mBinding.activityMainToolbar,
-            R.string.navigation_drawer_open,
-            R.string.navigation_drawer_close
+                this,
+                mBinding.drawerLayout,
+                mBinding.activityMainToolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close
         ) {
             override fun onDrawerClosed(drawerView: View) {
                 // Triggered once the drawer closes
                 super.onDrawerClosed(drawerView)
                 try {
                     val inputMethodManager =
-                        getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     inputMethodManager.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
                 } catch (e: Exception) {
                     e.stackTrace
@@ -142,7 +154,7 @@ class HomeActivity : AppCompatActivity() {
                 super.onDrawerOpened(drawerView)
                 try {
                     val inputMethodManager =
-                        getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     inputMethodManager.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
                 } catch (e: Exception) {
                     e.stackTrace
@@ -155,27 +167,27 @@ class HomeActivity : AppCompatActivity() {
 
         // Set background of Drawer
         mBinding.navigationLayout.setBackgroundColor(
-            ContextCompat.getColor(
-                this,
-                R.color.colorPrimary
-            )
+                ContextCompat.getColor(
+                        this,
+                        R.color.colorPrimary
+                )
         )
     }
 
     private fun exitDialog() {
         SweetAlertDialog(this@HomeActivity, SweetAlertDialog.WARNING_TYPE)
-            .setTitleText("Close Application")
-            .setContentText("Are you sure you want to exit?")
-            .setConfirmText("Exit")
-            .setCancelText("Cancel")
-            .setConfirmClickListener { sDialog ->
-                sDialog.dismissWithAnimation()
-                finish()
-            }
-            .setCancelClickListener { sDialog ->
-                sDialog.dismissWithAnimation()
-            }
-            .show()
+                .setTitleText("Close Application")
+                .setContentText("Are you sure you want to exit?")
+                .setConfirmText("Exit")
+                .setCancelText("Cancel")
+                .setConfirmClickListener { sDialog ->
+                    sDialog.dismissWithAnimation()
+                    finish()
+                }
+                .setCancelClickListener { sDialog ->
+                    sDialog.dismissWithAnimation()
+                }
+                .show()
     }
 
     private fun updateAdapter(highlightItemPos: Int) {
@@ -198,4 +210,66 @@ class HomeActivity : AppCompatActivity() {
             }
         }
     }
+
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // MenuInflater inflater = getMenuInflater();
+        // inflater.inflate(R.menu.main_menu, menu);
+        menuInflater.inflate(R.menu.menu_main, menu)
+        val menuItem: MenuItem = menu.findItem(R.id.action_notification)
+        // val menuItem1: MenuItem = menu.findItem(R.id.action_cart)
+        val actionView: View = menuItem.actionView
+        tvNotificationCount = actionView.findViewById(R.id.noti_badge) as TextView
+        /* val actionView1: View = menuItem1.actionView
+         textCartItemCount = actionView1.findViewById(R.id.cart_badge) as TextView*/
+        setupBadge()
+        actionView.setOnClickListener { v -> onOptionsItemSelected(menuItem) }
+        //actionView1.setOnClickListener { v -> onOptionsItemSelected(menuItem1) }
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_notification -> {
+                Toast.makeText(applicationContext, "Coming soon", Toast.LENGTH_LONG).show()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun setupBadge() {
+        if (countIncrement != 0) {
+            tvNotificationCount.visibility = View.VISIBLE
+            tvNotificationCount.text = "" + countIncrement
+        } else {
+            tvNotificationCount.visibility = View.GONE
+
+        }
+        /*if (textCartItemCount != null) {
+            val res: Cursor = databaseHelper.getAllData()
+            if (res.getCount() === 0) {
+                if (textCartItemCount.getVisibility() === View.VISIBLE) {
+                    textCartItemCount.setVisibility(View.GONE)
+                }
+            } else {
+                textCartItemCount.setText(String.valueOf(Math.min(res.getCount(), 99)))
+                if (textCartItemCount.getVisibility() === View.GONE) {
+                    textCartItemCount.setVisibility(View.VISIBLE)
+                }
+            }
+        }*/
+    }
+
+    override fun updateNotificationCount() {
+      //  Toast.makeText(applicationContext, "updateNotificationCount", Toast.LENGTH_LONG).show()
+        setupBadge()
+    }
+
+    override fun updateCartCount() {
+        //Toast.makeText(applicationContext, "updateCartCount" + countIncrement, Toast.LENGTH_LONG).show()
+        setupBadge()
+    }
+
+
 }

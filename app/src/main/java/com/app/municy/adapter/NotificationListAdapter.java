@@ -54,7 +54,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
         return this.rowBeans.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvDes;
         public ViewHolder(View view) {
             super(view);
