@@ -94,7 +94,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener,
             .addConnectionCallbacks(this)
             .addOnConnectionFailedListener(this)
             .addApi(LocationServices.API).build()
-        mGoogleApiClient.connect()
+        mGoogleApiClient!!.connect()
     }
 
     override fun onConnected(bundle: Bundle?) {

@@ -12,7 +12,6 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.app.filesender.interfaces.ApiInterface
 import com.app.filesender.interfaces.ItemClickListener
-import com.app.municy.HomeActivity
 import com.app.municy.HomeActivity.Companion.countIncrement
 import com.app.municy.R
 import com.app.municy.adapter.NotificationListAdapter
@@ -42,6 +41,7 @@ class HomeFragment : Fragment(), ItemClickListener {
         val rootView = inflater.inflate(R.layout.fragment_home, container, false)
         val fragmentName = arguments?.getString("fragmentName")
         // rootView.fragment_name.text = fragmentName
+
         return rootView
     }
 
@@ -85,6 +85,7 @@ class HomeFragment : Fragment(), ItemClickListener {
 
     }
 
+
     override fun onDestroyView() {
         // Consider not storing the binding instance in a field
         // if not needed.
@@ -124,9 +125,25 @@ class HomeFragment : Fragment(), ItemClickListener {
                 })
     }
 
+    private fun getData1(id: Int) {
+        RetrofitHelper.request(
+            requireContext(), object : RetrofitHelper.CallBackListener {
+                override fun onSuccess(json: JSONObject) {
+                    //  binding.progressbar.visibility == View.GONE
+
+                }
+                override fun onFailed(message: String) {
+                    // binding.progressbar.visibility == View.GONE
+                    Log.d(TAG, "uploadShopData  message : $message")
+                }
+            })
+    }
+
+
+
     override fun onClick(data: Any) {
-       /* val notification: Notification = data as Notification;
-        val body = notification.description*/
+        /* val notification: Notification = data as Notification;
+         val body = notification.description*/
         countIncrement += 1
         (context as updateCount).updateCartCount()
 
@@ -143,4 +160,17 @@ class HomeFragment : Fragment(), ItemClickListener {
           dialog.setContentView(dialogView)
           dialog.show()*/
     }
+
+  /*  override fun dispatchEvent(event: MotionEvent) {
+        if (event.action == MotionEvent.ACTION_DOWN) {
+            if (mBottomSheetBehavior.getState() === BottomSheetBehavior.STATE_EXPANDED) {
+                val outRect = Rect()
+                bottomSheet.getGlobalVisibleRect(outRect)
+                if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
+            }
+
+        }
+    }*/
+
+
 }

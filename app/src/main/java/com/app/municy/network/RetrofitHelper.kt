@@ -1,27 +1,29 @@
-
 import android.content.Context
 import android.util.Log
-import com.google.gson.Gson
+import com.androidnetworking.AndroidNetworking
+import com.androidnetworking.common.Priority
+import com.androidnetworking.error.ANError
+import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.app.filesender.interfaces.ApiInterface
-import okhttp3.MultipartBody
+import com.google.gson.Gson
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.File
 
 
 object RetrofitHelper {
+    //https://camposha.info/kotlin-android-capture-from-camera-or-pick-image/
     private const val TAG = "RetrofitHelper"
     private lateinit var call: Call<Any>
 
     @JvmStatic
     fun requestRetrofit(context: Context, call: Call<Any>, callback: CallBackListener) {
         val apiService: ApiInterface = ApiClient.client.create(ApiInterface::class.java)
-      //  val file = File("path")
-       // val body = MultipartBody.Part.createFormData("file", file.name, file.asRequestBody("*/*".toMediaTypeOrNull()))
-      //  call = apiService.uploadFile(body)
+        //   val file = File("path")
+        // val body = MultipartBody.Part.createFormData("file", file.name, file.asRequestBody("*/*".toMediaTypeOrNull()))
+        //  call = apiService.uploadFile(body)
 
 
         // Log.d(TAG, "ApiRequest-- : $callApi $hashMap"
@@ -55,6 +57,30 @@ object RetrofitHelper {
             }
         })
     }
+
+    fun request(context: Context, callback: CallBackListener) {
+        AndroidNetworking.post("https://fierce-cove-29863.herokuapp.com/createAnUser")
+                .addBodyParameter("firstname", "Amit")
+                .addBodyParameter("lastname", "Shekhar")
+                .setTag("test")
+                .setPriority(Priority.MEDIUM)
+                .build()
+                .getAsJSONObject(object : JSONObjectRequestListener {
+                    override fun onResponse(response: JSONObject?) {
+                        // do anything with response
+                        if (response != null) {
+                            callback.onSuccess(response)
+                        }
+                    }
+
+                    override fun onError(error: ANError?) {
+                        if (error != null) {
+                            callback.onFailed(error.errorDetail)
+                        }
+                    }
+                })
+    }
+
 
     interface CallBackListener {
         fun onSuccess(json: JSONObject)

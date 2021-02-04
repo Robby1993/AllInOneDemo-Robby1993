@@ -38,5 +38,7 @@
     <string name="time_punches">Time Punches</string>
     <string name="call_in_system">Call in System</string>
     <string name="calendars">Calendars</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAQADOTGd88tlLiVOH8rwArd1OpjGzA7wk</string>
+
 
 </resources>
