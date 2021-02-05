@@ -1,6 +1,5 @@
 package com.app.municy
 
-import Constants
 import NavigationItemModel
 import android.content.Context
 import android.os.Bundle

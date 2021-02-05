@@ -16,11 +16,14 @@ import com.app.municy.R
 import com.app.municy.activities.EmailActivity
 import com.app.municy.activities.MapActivity
 import com.app.municy.databinding.FragmentResourceBinding
+import com.app.municy.model.Data
+import com.app.municy.utilities.Constants
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.ImagePicker.Companion.getError
 import com.github.dhaval2404.imagepicker.ImagePicker.Companion.getFile
 import com.github.dhaval2404.imagepicker.ImagePicker.Companion.getFilePath
 import com.github.dhaval2404.imagepicker.ImagePicker.Companion.with
+import com.google.gson.Gson
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -34,8 +37,8 @@ class ResourceFragment : Fragment() {
 
     private lateinit var mPhoto: ByteArray
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_resource, container, false)
         /*  val bundle = Bundle()
@@ -56,48 +59,53 @@ class ResourceFragment : Fragment() {
         }
 
         binding.tvFile.setOnClickListener {
-            requestPermission()
+            //   requestPermission()
+            Toast.makeText(requireContext(), "data : " + Gson().toJson(Constants.map.values), Toast.LENGTH_SHORT).show()
+        }
+
+        binding.tvLink.setOnClickListener {
+            Constants.setDataList(requireContext(), Data("test", 1))
         }
     }
 
     private fun requestPermission() {
         Dexter.withContext(requireContext())
-            .withPermissions(
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.CAMERA
-            )
-            .withListener(object : MultiplePermissionsListener {
-                override fun onPermissionsChecked(report: MultiplePermissionsReport) {
-                    // check if all permissions are granted
-                    if (report.areAllPermissionsGranted()) {
-                        //.galleryOnly()	//User can only select image from Gallery
-                        // .cameraOnly()	//User can only capture image using Camera
-                        //  .crop()	    //Crop image and let user choose aspect ratio.
-                        with(requireActivity()) //  .crop()                    //Crop image(Optional), Check Customization for more option
-                            .compress(1024) //Final image size will be less than 1 MB(Optional)
-                            .maxResultSize(
-                                1080,
-                                1080
-                            ) //Final image resolution will be less than 1080 x 1080(Optional)
-                            .start()
+                .withPermissions(
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.CAMERA
+                )
+                .withListener(object : MultiplePermissionsListener {
+                    override fun onPermissionsChecked(report: MultiplePermissionsReport) {
+                        // check if all permissions are granted
+                        if (report.areAllPermissionsGranted()) {
+                            //.galleryOnly()	//User can only select image from Gallery
+                            // .cameraOnly()	//User can only capture image using Camera
+                            //  .crop()	    //Crop image and let user choose aspect ratio.
+                            with(requireActivity()) //  .crop()                    //Crop image(Optional), Check Customization for more option
+                                    .compress(1024) //Final image size will be less than 1 MB(Optional)
+                                    .maxResultSize(
+                                            1080,
+                                            1080
+                                    ) //Final image resolution will be less than 1080 x 1080(Optional)
+                                    .start()
+                        }
+                        // check for permanent denial of any permission
+                        if (report.isAnyPermissionPermanentlyDenied) {
+                            // permission is denied permenantly, navigate user to app settings
+                            requestPermission()
+                        }
                     }
-                    // check for permanent denial of any permission
-                    if (report.isAnyPermissionPermanentlyDenied) {
-                        // permission is denied permenantly, navigate user to app settings
-                        requestPermission()
-                    }
-                }
 
-                override fun onPermissionRationaleShouldBeShown(
-                    permissions: List<PermissionRequest>,
-                    token: PermissionToken
-                ) {
-                    token.continuePermissionRequest()
-                }
-            })
-            .onSameThread()
-            .check()
+                    override fun onPermissionRationaleShouldBeShown(
+                            permissions: List<PermissionRequest>,
+                            token: PermissionToken
+                    ) {
+                        token.continuePermissionRequest()
+                    }
+                })
+                .onSameThread()
+                .check()
     }
 
     override fun onDestroyView() {
@@ -120,8 +128,8 @@ class ResourceFragment : Fragment() {
                     mFragmentResourceBinding!!.ivFile.setImageBitmap(selectedImage)
                     mPhoto = profileImage(selectedImage)!!
                     /* String encodedImage = encodeImage(selectedImage);*/Log.d(
-                        "File",
-                        "---------- : " + file!!.absolutePath
+                            "File",
+                            "---------- : " + file!!.absolutePath
                     )
                     Log.d("filePath", "---------- : $filePath")
                 }
